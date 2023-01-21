@@ -110,8 +110,7 @@ async def scraping(url: str, instance_name: str):
 
         async def __call__(self, *args: Any, **kwds: Any) -> Any:
             funcs = (getattr(self, name) for name in dir(self) if name.startswith('scrape'))
-            for i in funcs:
-                i()
+            tasks = [asyncio.create_task(coro()) for coro in funcs]
 
     instance_name = ScrapeEvent(url)
     instance_name()
