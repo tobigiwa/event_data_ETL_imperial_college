@@ -1,6 +1,7 @@
 from typing import List, NoReturn
 import asyncio, aiohttp
 from bs4 import BeautifulSoup
+from . import scraper
 
 async def fetch_url(session: aiohttp.ClientSession, url: str,  BeautifulSoup: BeautifulSoup = BeautifulSoup) -> BeautifulSoup:
     async with session.get(url) as response: 
@@ -17,8 +18,10 @@ async def fetch_all(session: aiohttp.ClientSession, list_of_url: List[str]) -> L
 async def main(list_of_url: List[str]) -> NoReturn:
     async with aiohttp.ClientSession() as session:
         htmls = await fetch_all(session, list_of_url)
-        titles = [i.title.string for i in htmls]
-        print(titles)
+        # titles = [i.title.string for i in htmls]
+        # print(titles)
+        # map(scraper.scraping, htmls)
+        await asyncio.gather()
             
 
 

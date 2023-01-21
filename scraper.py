@@ -15,7 +15,7 @@ def get_all_urls(url: str = start_url, BeautifulSoup: BeautifulSoup = BeautifulS
     return [urljoin(base_url, url.get('href')) for url in soup.select('.col.event.lg-3.md-6.xs-12 a[href ]')]
 
 
-async def scraping(url: str):
+async def scraping(url: str, instance_name: str):
 
     import asyncio
     from typing import NoReturn, List, Tuple, Dict, Any, Union, Awaitable, Coroutine
@@ -48,8 +48,7 @@ async def scraping(url: str):
         async def scrape_event_name(self) -> Union[str, str]:
             try:
                 sc_event_name = self.find_first_txt('.page-heading h1')
-            except Exception as e:
-                ...
+            except Exception as e: ...
             else:
                 return sc_event_name
 
@@ -57,8 +56,7 @@ async def scraping(url: str):
         async def scrape_event_type(self) -> Union[str, str]:
             try:
                 sc_event_type = self.find_first_txt('.feature.topic span')
-            except Exception as e:
-                ...
+            except Exception as e: ...
             else:
                 return sc_event_type
 
@@ -67,8 +65,7 @@ async def scraping(url: str):
             try:
                 sc_event_start = self.find_first('.event-details__block [itemprop="startDate"]')
                 sc_event_end = self.find_first('.event-details__block [itemprop="endDate"]')
-            except Exception as e:
-                ...
+            except Exception as e: ...
             else:
                 return data_cleaning.date_and_time(sc_event_start, sc_event_end)
             
@@ -77,50 +74,47 @@ async def scraping(url: str):
             try:
                 sc_event_location = self.find_first_txt('.event-details__address').replace('\n', '').strip()
                 sc_event_campus = self.find_first_txt('.event-details__venue').replace('\n', '').strip()
-            except Exception as e:
-                ...
+            except Exception as e: ...
             else:
-                return  {"location": sc_event_location,
-                        "campus": sc_event_campus}
+                return  {"location": sc_event_location, "campus": sc_event_campus}
 
 
-        async def scrape_event_cost(self) -> Union[str, str]:
+        async def scrape_event_cost(self) -> Union[Dict[str, str], str]:
             try:
                 sc_event_cost = self.find_first_txt('.event-details__label + span')
-            except Exception as e:
-                ...
+            except Exception as e: ...
             else:
-                if sc_event_cost.lower() == 'free':
-                    return {"currency": "", "price": ""}
-                else: 
-                    return {"currency": sc_event_cost[0] if sc_event_cost != None else "",
+                if sc_event_cost.lower() == 'free': return {"currency": "", "price": ""}
+                else: return {"currency": sc_event_cost[0] if sc_event_cost != None else "",
                             "price": sc_event_cost[1:] if sc_event_cost != None else ""}
             
             
-        async def scrape_event_contact(self) -> Union[str, str]:
+        async def scrape_event_contact(self) -> List[Dict[str, str]]:
             try:
                 sc_event_contact = self.find_all('.event-details__label + a')
-            except Exception as e:
-                ...
+            except Exception as e: ...
             else:
                 container: List[Dict[str, str]] = []
                 for info in sc_event_contact:
-                    container.append({"name": info.get_text().replace('\n', '').strip(), "link": info.get('href')}) if info else ...
-
+                    container.append({"name": info.get_text().replace('\n', '').strip(), "link": info.get('href')}) if info  else ...
                 return container
-                
+
             
         async def scrape_event_info(self) -> Union[str, str]:
             try:
-                sc_event_info = self.find_first_txt('.event-details__label + a')
-            except Exception as e:
-                ...
+                sc_event_info = self.find_first_txt('.content-hero__body p')
+            except Exception as e: ...
             else:
                 return  sc_event_info
 
-        async def __call__(self, *args: Any, **kwds: Any) -> Any:
-            ...
 
+        async def __call__(self, *args: Any, **kwds: Any) -> Any:
+            funcs = (getattr(self, name) for name in dir(self) if name.startswith('scrape'))
+            for i in funcs:
+                i()
+
+    instance_name = ScrapeEvent(url)
+    instance_name()
 
 __all__ = ["get_all_urls", "scraping"]
             
