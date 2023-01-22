@@ -9,6 +9,6 @@ def date_and_time(start_date: element.Tag, end_date: element.Tag) -> Union[Dict[
 
     return  {"start_date": start[0], 
             "end_date": end[0],
-            "start_time": datetime.strftime(start[1], '%H:%M:%S%z').strftime('%H:%M'),
-            "end_time": datetime.strftime(end[1], '%H:%M:%S%z').strftime('%H:%M')
+            "start_time": datetime.strptime(start[1], '%H:%M:%S%z').strftime('%H:%M'),
+            "end_time": datetime.strptime(end[1], '%H:%M:%S%z').strftime('%H:%M')
             }
