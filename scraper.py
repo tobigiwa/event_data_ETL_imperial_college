@@ -109,7 +109,7 @@ def scraping(data) -> Dict[str, str]:
 
             return {"ScrappedUrl": page_url,
                     "Event_name": self.scrape_event_name(),
-                    "Start_date": date["start_date"] if (date := self.scrape_event_date_time()) else (contact := defaultdict(lambda: "")),
+                    "Start_date": date["start_date"] if (date := self.scrape_event_date_time()) else (date := defaultdict(lambda: "")),
                     "End_date": date["end_date"],
                     "Start_time": date["start_time"],
                     "End_time": date["end_time"],   
@@ -122,7 +122,7 @@ def scraping(data) -> Dict[str, str]:
                     "Contact": self.scrape_event_contact(),
                     "Event info": self.scrape_event_info()
                     }
-            
+
     instance_name = ScrapeEvent(soup)
     return  instance_name()
 
