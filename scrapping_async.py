@@ -8,8 +8,8 @@ async def fetch_url(session: aiohttp.ClientSession, url: str,  BeautifulSoup: el
     async with session.get(url) as response: 
         if response.ok:
             content = await response.text()
-            return BeautifulSoup(content, 'lxml'), url
-
+            args = BeautifulSoup(content, 'lxml'), url
+            return scraper.scraping(args)
 
 async def fetch_all_urls(session: aiohttp.ClientSession, list_of_url: List[str]) -> List[Tuple[element.Tag, str]]:
     tasks = [asyncio.create_task(fetch_url(session, url))
@@ -23,16 +23,14 @@ async def main(list_of_url: List[str]) -> NoReturn:
     import time
 
     async with aiohttp.ClientSession() as session:
-        request_start_time = time.perf_counter()
-        htmls = await fetch_all_urls(session, list_of_url)
-        request_end_time = time.perf_counter()
-        scrapped_data = [scraper.scraping(html) for html in htmls]
-        parser_end_time = time.perf_counter()
+        start_time = time.perf_counter()
+        scrapped_data = await fetch_all_urls(session, list_of_url)
+        end_time = time.perf_counter()
+        print(f'Total time---------- {end_time - start_time}')
 
         df = pd.DataFrame(scrapped_data)
-        df.to_csv('async_sync.csv')
-        print(f'request time---------- {request_end_time - request_start_time}')
-        print(f'parsing time---------- {parser_end_time - request_end_time}')
+        path = r'scrapped_data'
+        df.to_csv(f'{path}/async.csv')
 
 
 if __name__ == "__main__":
