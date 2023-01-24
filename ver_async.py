@@ -43,4 +43,4 @@ if __name__ == "__main__":
     asyncio.run(main(all_urls))
 
 
-__all__ =[]
+__all__ = []

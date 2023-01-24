@@ -2,7 +2,7 @@ from typing import List, Tuple
 from bs4 import BeautifulSoup, element
 import scrapper
 
-def main(url: str) -> List[Tuple[element.Tag, str]]:
+def fetch_all_urls(url: str) -> List[Tuple[element.Tag, str]]:
     from urllib.request import urlopen
 
     args = BeautifulSoup(urlopen(url).read(), 'lxml'),  url
@@ -20,12 +20,14 @@ if __name__ == "__main__":
     with ProcessPoolExecutor() as executor:
         start_time = time.perf_counter()
 
-        futures = [executor.submit(scrapper.scraping, all_urls)]
-        scrapped_data = [future for future in as_completed(futures)]
+        futures = [executor.submit(fetch_all_urls, page_url) for page_url in all_urls]
+        scrapped_data = [future.result() for future in as_completed(futures)]
 
         end_time = time.perf_counter()
         print(f'Total time---------- {end_time - start_time}')
 
         df = pd.DataFrame(scrapped_data)
         path = r'scrapped_data'
-        df.to_csv(f'{path}/async_processpool.csv')
+        df.to_csv(f'{path}/processpool.csv')
+
+__all__ = []
