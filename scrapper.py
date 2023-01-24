@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup, element
 from typing import List, Dict, Any, Union
-import data_cleaning
+import scrapper_data_cleaning
 
 large_num: int = 1000
 start_url: str = f"https://www.imperial.ac.uk/whats-on/?audience=&match=any&quantity={large_num}&show=future&start=0&tags=institutional-event"
@@ -63,7 +63,7 @@ def scraping(data) -> Dict[str, str]:
                 sc_event_end =  self.find_first('.event-details__block [itemprop="endDate"]')
             except Exception as e: print(e)
             else:
-                return data_cleaning.date_and_time(sc_event_start, sc_event_end)
+                return scrapper_data_cleaning.date_and_time(sc_event_start, sc_event_end)
             
         
         def scrape_event_venue(self) -> Union[Dict[str, str], str]:
