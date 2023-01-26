@@ -26,7 +26,7 @@ async def main(list_of_url: List[str]) -> NoReturn:
         start_time = time.perf_counter()
         scrapped_data = await fetch_all_urls(session, list_of_url)
         end_time = time.perf_counter()
-        print(f'Total time---------- {end_time - start_time}')
+        print(f'----------Total time---- with asyncio----------- {end_time - start_time}')
 
         df = pd.DataFrame(scrapped_data)
         path = r'scrapped_data'

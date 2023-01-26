@@ -21,7 +21,7 @@ if __name__ == "__main__":
     scrapped_data = [fetch_all_urls(page_url) for page_url in all_urls]
     
     end_time = time.perf_counter()
-    print(f'Total time---------- {end_time - start_time}')
+    print(f'----------Total time----with sync----------- {end_time - start_time}')
 
     df = pd.DataFrame(scrapped_data)
     path = r'scrapped_data'
