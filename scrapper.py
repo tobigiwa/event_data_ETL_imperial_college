@@ -15,7 +15,7 @@ def get_all_urls(url: str = start_url, BeautifulSoup: BeautifulSoup = BeautifulS
     return [urljoin(base_url, url.get('href')) for url in soup.select('.col.event.lg-3.md-6.xs-12 a[href ]')]
 
 
-def scraping(data) -> Dict[str, str]:
+def main(data) -> Dict[str, str]:
     soup , page_url = data
 
     from logger import creating_log
@@ -24,7 +24,7 @@ def scraping(data) -> Dict[str, str]:
     @dataclass
     class ScrapeEvent:
         """ 
-        The codebase design uses a single Class( dataclass) with it Methods as function scraping singular data (some more though).
+        The codebase design uses a single Class( dataclass) with it Methods as function main singular data (some more though).
         Returns the "self" to a it caller which is handled by a context manager.
         """
         soup: BeautifulSoup
@@ -126,7 +126,7 @@ def scraping(data) -> Dict[str, str]:
     instance_name = ScrapeEvent(soup)
     return  instance_name()
 
-__all__ = ["get_all_urls", "scraping"]
+__all__ = ["get_all_urls", "main"]
             
 
 

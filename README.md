@@ -1,3 +1,3 @@
 ## COMING SOON...
 
-![benchmarking results](./run.png)
+![benchmarking results](./benchmark.png)

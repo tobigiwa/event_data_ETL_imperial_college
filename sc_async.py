@@ -9,7 +9,7 @@ async def fetch_url(session: aiohttp.ClientSession, url: str,  BeautifulSoup: el
         if response.ok:
             content = await response.text()
             args = BeautifulSoup(content, 'lxml'), url
-            return scrapper.scraping(args)
+            return scrapper.main(args)
 
 async def fetch_all_urls(session: aiohttp.ClientSession, list_of_url: List[str]) -> List[Tuple[element.Tag, str]]:
     tasks = [asyncio.create_task(fetch_url(session, url))

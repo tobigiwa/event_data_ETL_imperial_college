@@ -6,7 +6,7 @@ def fetch_all_urls(url: str) -> List[Tuple[element.Tag, str]]:
     from urllib.request import urlopen
 
     args = BeautifulSoup(urlopen(url).read(), 'lxml'),  url
-    return scrapper.scraping(args)
+    return scrapper.main(args)
 
 
 if __name__ == "__main__":
@@ -28,6 +28,6 @@ if __name__ == "__main__":
 
         df = pd.DataFrame(scrapped_data)
         path = r'scrapped_data'
-        df.to_csv(f'{path}/processpool.csv')
+        df.to_csv(f'{path}/threadpool.csv')
 
 __all__ = []

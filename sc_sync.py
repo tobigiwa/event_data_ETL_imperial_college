@@ -5,7 +5,7 @@ def fetch_all_urls(url: str) -> List[Tuple[element.Tag, str]]:
     from urllib.request import urlopen
 
     args = BeautifulSoup(urlopen(url).read(), 'lxml'),  url
-    return scrapper.scraping(args)
+    return scrapper.main(args)
 
 
 if __name__ == "__main__":
