@@ -1,0 +1,7 @@
+/venv_richie
+/__pycache__
+*.csv
+*ipynb
+.vscode
+*js
+
